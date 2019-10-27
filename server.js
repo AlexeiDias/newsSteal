@@ -39,8 +39,6 @@ app.get("/scrape", function(req, res) {
       var sources = [];
       var list = $('a', ".news_item").attr('data-ga-action', 'home: story headline')
       list.append($('picture', ".modern").attr('src',))
-      // $('#fruits').children('.pear').text()
-      // var list = $('div').children('.news_item').text();
       for (let i = 0; i < list.length - 1; i++) {
           console.log("\nNew Item")
           if (list[i].children[0].type == 'text' && list[i].attribs.href != '') {
@@ -48,51 +46,49 @@ app.get("/scrape", function(req, res) {
               console.log("Source:", `https://www.democracynow.org${list[i].attribs.href}`)
               // Add the text and href of every link, and save them as properties of the result object
               $("div h3").each(function(i, element) { 
-
-                  // Save an empty result object
+      // Save an empty result object
       var result = {};
-
+      console.log("result bellow here")
+      console.log(list)
+      console.log("result above here")
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this)
         .children("a")
         .text();
         console.log("title bellow here")
+        console.log(result)
         console.log(result.title)
         console.log("title above here")
-
       result.link = $(this)
         .children("a")
         .attr("href");
         console.log("link bellow here")
         console.log(result.link)
         console.log("link above here")
-
+      result.igm = $(this)
+        .children("picture")
+        .attr("img");
+        console.log("foto bellow here")
+        console.log(result.img)
+        console.log("foto above here")
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
         .then(function(dbArticle) {
           // View the added result in the console
-          // console.log(dbArticle);
-        })
+          console.log("article bellow here")
+          console.log(dbArticle);
+          console.log("article above here")
+       })
         .catch(function(err) {
           // If an error occurred, log it
           console.log(err);
         });
-
-              });
-      
-
-      // Create a new Article using the `result` object built from scraping
-     
-        
-          }
-      }
-    })
-
-  
-
-    // Send a message to the client
+      });
+    }
+  }
+})
+ // Send a message to the client
     res.send("Scrape Complete");
-  
 });
 
 
